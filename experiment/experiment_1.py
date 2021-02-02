@@ -1,5 +1,6 @@
 import utilities
 import json
+import os 
 from sklearn.linear_model import LogisticRegression
 
 from distutils.util import strtobool
@@ -15,10 +16,31 @@ def main():
     terms_path = '../data/terms/train.json'
     output_path = '../data/outputs/experiment_1.'
 
-    term_list = json.load(open(terms_path))
+    # path to training/testing data
+    train_set_path = '../data/terms/train_set.json'
+    test_set_path = '../data/terms/test_set.json'
+    valid_set_path = '../data/terms/valid_set.json'
 
-    # split
-    train, valid, test = utilities.train_test_split(term_list, 3)
+    # if separated data does not exist, create them
+    if not os.path.isfile(train_set_path):
+        terms_path = '../data/terms/train.json'
+        term_list = json.load(open(terms_path))
+
+        train, valid, test = utilities.train_test_split(term_list, 3)
+
+        with open('../data/terms/train_set.json', 'w+') as outfile:
+            json.dump(train, outfile, indent=2)
+
+        with open('../data/terms/test_set.json', 'w+') as outfile:
+            json.dump(test, outfile, indent=2)
+        
+        with open('../data/terms/valid_set.json', 'w+') as outfile:
+            json.dump(valid, outfile, indent=2)
+    
+    #data loading
+    train = json.load(open(train_set_path))
+    test = json.load(open(test_set_path))
+    valid = json.load(open(valid_set_path))
 
     for embedding in embedding_list:
         # load embedding
