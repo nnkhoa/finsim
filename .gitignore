@@ -1,3 +1,7 @@
+# VSCode and MacOS
+.DS_Store
+.vscode/
+
 # Default FinSim Folder
 baselines/
 data/
