@@ -5,6 +5,9 @@ from optparse import OptionParser
 
 import gensim
 import numpy
+
+import pandas as pd
+
 from nltk.tokenize import word_tokenize
 from gensim.models import Word2Vec
 logging.basicConfig(level="INFO")
@@ -71,3 +74,21 @@ def train_test_split(term_list, seed=0):
 def train(X, Y, model):
     model.fit(X, Y)
     return model
+
+
+def convert_data(terms_list, labels_list):
+    data = []
+
+    for term in terms_list:
+        for label in labels_list:
+            entry = [term['term'], label['label']]
+            if term['label'] == label['label']:
+                entry.append(1)
+            else:
+                entry.append(0)
+
+            data.append(entry)
+    
+    df = pd.DataFrame.from_records(data, columns=['term', 'tag', 'label'])
+
+    return df
