@@ -88,7 +88,5 @@ def convert_data(terms_list, labels_list):
                 entry.append(0)
 
             data.append(entry)
-    
-    df = pd.DataFrame.from_records(data, columns=['term', 'tag', 'label'])
 
-    return df
+    return data
